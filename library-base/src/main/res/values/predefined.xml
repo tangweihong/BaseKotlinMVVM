@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--标题栏预定义id-->
+    <item name="title_bar" type="id" />
+    <!--上拉刷新下拉加载预定义id-->
+    <item name="m_refresh_layout" type="id" />
+    <!--多状态布局预定义id-->
+    <item name="m_multiple_status_layout" type="id" />
+    <!--RecyclerView预定义id-->
+    <item name="m_recycler_view" type="id" />
+
+</resources>

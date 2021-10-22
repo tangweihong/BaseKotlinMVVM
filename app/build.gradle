@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.lianshang.mvvm"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    // module级别的build.gradle文件中添加下名的配置
+    // 会自动为xml文件生成binding class
+    // 命名规则是Pascal case  + Binding
+    // 可在XML中添加属性来屏蔽生成binding class
+    // tools:viewBindingIgnore="true"
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation project(path: ':library-base')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+
+    implementation 'com.github.donkingliang:ConsecutiveScroller:4.4.0'
+    implementation 'com.github.xiaohaibin:XBanner:androidx_v1.1.2'
+    implementation 'com.github.mtjsoft:GridPager:v3.6.0'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:3.0.0'
+    //跑马灯
+    implementation 'com.sunfusheng:MarqueeView:1.4.1'
+    //带边框和圆角设置的ImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    //区域链-助记词
+    implementation 'org.web3j:core:3.3.1-android'
+    implementation 'io.github.novacrypto:BIP39:0.1.9'
+    //背景shape https://github.com/JavaNoober/BackgroundLibrary
+    implementation 'com.noober.background:core:1.6.5'
+    //二维码 https://github.com/bingoogolapple/BGAQRCode-Android
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.7'
+    implementation 'com.just.agentweb:agentweb-androidx:4.1.4'
+    implementation 'com.just.agentweb:filechooser-androidx:4.1.4'// (可选)
+    implementation 'com.download.library:downloader-androidx:4.1.4'// (可选)
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation 'com.github.getActivity:XXPermissions:11.6'
+
+    implementation 'com.github.princekin-f:EasyFloat:2.0.3'
+// Shape 框架：https://github.com/getActivity/ShapeView
+    implementation 'com.github.getActivity:ShapeView:3.3'
+    implementation("io.coil-kt:coil:1.3.1")
+    implementation("io.coil-kt:coil-gif:0.9.5")
+    implementation 'com.github.ihsg:PatternLocker:2.5.7'
+    implementation 'com.airbnb.android:lottie:4.1.0'
+}

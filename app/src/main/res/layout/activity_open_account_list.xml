@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.OpenAccountListActivity">
+
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:fillStatusBar="false"
+        app:showBottomLine="true"
+        app:bottomLineColor="@color/line_d2"
+        app:titleBarColor="@android:color/transparent"
+        app:leftType="textView"
+        app:leftText="交易所列表"
+        app:leftTextColor="@color/txt_33"
+        app:leftTextSize="15sp"
+        app:leftDrawable="@drawable/icon_back"
+        app:leftDrawablePadding="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/m_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/m_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>

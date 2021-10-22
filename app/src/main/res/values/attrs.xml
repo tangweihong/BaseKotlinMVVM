@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="textColor" format="color" />
+    <attr name="textSize" format="dimension" />
+
+
+    <declare-styleable name="AutoTextView">
+        <attr name="textSize" />
+        <attr name="textColor" />
+    </declare-styleable>
+
+    <declare-styleable name="ValidateEditText">
+        <attr name="inputType" format="integer" />
+        <attr name="isShowEye" format="boolean" />
+        <attr name="hintText" format="string" />
+        <attr name="isShowTip" format="boolean" />
+        <attr name="editTipText" format="string" />
+        <attr name="failColor" format="color" />
+        <attr name="successColor" format="color" />
+        <attr name="resultIcon" format="reference" />
+        <attr name="maxInputLength" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="XNumberProgressBar">
+        <attr name="xnpb_current" format="integer" />
+        <attr name="xnpb_max" format="integer" />
+
+        <attr name="xnpb_unreached_color" format="color" />
+        <attr name="xnpb_reached_color" format="color" />
+
+        <attr name="xnpb_reached_bar_height" format="dimension" />
+        <attr name="xnpb_unreached_bar_height" format="dimension" />
+
+        <attr name="xnpb_text_size" format="dimension" />
+        <attr name="xnpb_text_color" format="color" />
+
+        <attr name="xnpb_text_offset" format="dimension" />
+
+        <attr name="xnpb_text_visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressbar">
+        <attr name="radius" format="dimension" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="ringColor" format="color" />
+        <attr name="textColor" />
+        <attr name="textSize" />
+    </declare-styleable>
+</resources>

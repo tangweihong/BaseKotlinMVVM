@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ResizeImageView">
+        <attr name="resize_width" format="integer"/>
+        <attr name="resize_height" format="integer"/>
+    </declare-styleable>
+
+</resources>

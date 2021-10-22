@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="16dp"
+            android:src="@drawable/icon_home_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/home_img_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingEnd="16dp"
+            android:src="@drawable/icon_home_message"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/m_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.stx.xhb.androidx.XBanner xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/home_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:AutoPlayTime="4000"
+                    app:isHandLoop="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:pageChangeDuration="800"
+                    app:pointContainerLeftRightPadding="30dp"
+                    app:pointLeftRightPadding="2dp"
+                    app:pointNormal="@drawable/shape_point_normal"
+                    app:pointSelect="@drawable/shape_point_select"
+                    app:pointsPosition="CENTER"
+                    app:showIndicatorInCenter="false" />
+
+                <LinearLayout
+                    android:id="@+id/home_llt_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/xbanner">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_home_notice" />
+
+                    <com.lianshang.mvvm.ui.widget.AutoTextView
+                        android:id="@+id/home_marqueeView"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        app:textColor="#FF333333"
+                        app:textSize="@dimen/sp12" />
+
+                    <ImageView
+                        android:id="@+id/home_img_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="19dp"
+                        android:src="@drawable/icon_item_right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_bind_vsb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_home_bind_api"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/home_img_vsb_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/icon_home_bind_logo" />
+
+                    <TextView
+                        android:id="@+id/home_tv_vsb_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:text="@string/home_bind_tip"
+                        android:textColor="#ff333333"
+                        android:textSize="14sp" />
+
+                    <com.hjq.shape.view.ShapeTextView
+                        android:id="@+id/home_tv_to_bind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="9dp"
+                        android:paddingStart="19dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="19dp"
+                        android:paddingBottom="6dp"
+                        android:text="@string/home_bind"
+                        android:textColor="#ff333333"
+                        android:textSize="14sp"
+                        app:shape_radius="5dp"
+                        app:shape_solidColor="#FFFABE00" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_no_login_vsb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_home_bind_api"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:src="@drawable/icon_home_no_login_logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/home_login_tip"
+                        android:textColor="#ff333333"
+                        android:textSize="14sp" />
+
+                    <com.hjq.shape.view.ShapeTextView
+                        android:id="@+id/home_tv_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="9dp"
+                        android:paddingStart="19dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="19dp"
+                        android:paddingBottom="6dp"
+                        android:text="@string/login"
+                        android:textColor="#ff333333"
+                        android:textSize="14sp"
+                        app:shape_radius="5dp"
+                        app:shape_solidColor="#FFFABE00" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/home_tv_open_account"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_home_open_account"
+                        android:drawablePadding="9dp"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingTop="28dp"
+                        android:paddingEnd="2dp"
+                        android:paddingBottom="28dp"
+                        android:text="@string/home_open_account"
+                        android:textColor="#ff333333"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/home_tv_bind_api"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_home_bind_api"
+                        android:drawablePadding="9dp"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingTop="28dp"
+                        android:paddingEnd="2dp"
+                        android:paddingBottom="28dp"
+                        android:text="@string/home_bind_api"
+                        android:textColor="#ff333333"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/home_tv_profit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_home_profit"
+                        android:drawablePadding="9dp"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingTop="28dp"
+                        android:paddingEnd="2dp"
+                        android:paddingBottom="28dp"
+                        android:text="@string/mine_profit_breakdown"
+                        android:textColor="#ff333333"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/home_tv_invitation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_home_invitation"
+                        android:drawablePadding="9dp"
+                        android:gravity="center"
+                        android:paddingStart="2dp"
+                        android:paddingTop="28dp"
+                        android:paddingEnd="2dp"
+                        android:paddingBottom="28dp"
+                        android:text="@string/invite_friends"
+                        android:textColor="#ff333333"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/home_tv_news"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_home_news"
+                        android:drawablePadding="9dp"
+                        android:gravity="center"
+                        android:paddingTop="28dp"
+                        android:paddingBottom="28dp"
+                        android:text="@string/home_news"
+                        android:textColor="#ff333333"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/home_mainstream_currency"
+                    android:textColor="#ff000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:id="@+id/home_tv_symbol_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="16dp"
+                        android:text="@string/home_market"
+                        android:textColor="#ff000000"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.4" />
+
+                    <TextView
+                        android:id="@+id/home_tv_new_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/new_latest_price"
+                        android:textColor="#ff000000"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/home_tv_ups"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingEnd="16dp"
+                        android:text="@string/home_Gainers"
+                        android:textColor="#ff000000"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/m_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintTop_toBottomOf="@+id/home_tv_symbol_name"
+                        tools:listitem="@layout/item_home_market_list" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/home_tv_news_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:drawableRight="@drawable/icon_item_right"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="11dp"
+                    android:text="@string/home_latest_news"
+                    android:textColor="#ff333333"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_new_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_home_news_list" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>

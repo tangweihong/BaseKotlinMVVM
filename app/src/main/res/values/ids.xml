@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tag_id" type="id"/>
+
+    <!--NoticeUtils-->
+    <item name="notice_data" type="id" />
+    <item name="notice_position" type="id" />
+    <item name="notice_next" type="id" />
+    <item name="notice_flag" type="id" />
+
+</resources>
