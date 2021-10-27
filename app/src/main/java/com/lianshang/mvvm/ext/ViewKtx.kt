@@ -8,12 +8,11 @@ import android.content.res.Resources
 import android.os.Build
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Checkable
 import android.widget.EditText
-import com.lianshang.mvvm.ext.ViewClickDelay.SPACE_TIME
-import com.lianshang.mvvm.ext.ViewClickDelay.hash
-import com.lianshang.mvvm.ext.ViewClickDelay.lastClickTime
 
 /**
  * @Author: QuYunShuo
@@ -68,8 +67,6 @@ val View.isGone: Boolean
     get() {
         return visibility == View.GONE
     }
-
-
 
 
 val Number.dp: Int get() = (this.toFloat() * Resources.getSystem().displayMetrics.density).toInt()
@@ -229,32 +226,6 @@ fun View.getViewId(): Int {
     return id
 }
 
-object ViewClickDelay {
-    var hash: Int = 0
-    var lastClickTime: Long = 0
-    var SPACE_TIME: Long = 2000  // 间隔时间
-}
-
-/**
- * 防快速点击
- * @receiver View
- * @param clickAction 要响应的操作
- */
-fun View.clickDelay(clickAction: () -> Unit) {
-    this.setOnClickListener {
-        if (this.hashCode() != hash) {
-            hash = this.hashCode()
-            lastClickTime = System.currentTimeMillis()
-            clickAction()
-        } else {
-            val currentTime = System.currentTimeMillis()
-            if (currentTime - lastClickTime > SPACE_TIME) {
-                lastClickTime = System.currentTimeMillis()
-                clickAction()
-            }
-        }
-    }
-}
 
 fun EditText.passwordShowHide(isShow: Boolean) {
     this.transformationMethod =

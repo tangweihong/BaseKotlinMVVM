@@ -32,10 +32,10 @@ class NewsActivity :
     }
     override fun loadData() {
         viewModel.newsList.observe(this) {
-            onSuccessList(it.data, false)
+            onSuccessList(it.data)
         }
     }
-    override fun onLoadData(isRefresh: Boolean, pagerNumber: Int) {
+    override fun onLoadData(pagerNumber: Int) {
         viewModel.getNewsList(pagerNumber,false)
     }
 }

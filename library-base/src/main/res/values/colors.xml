@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="transparent">#00000000</color>
+    <color name="txt_1a">#1A1A1A</color>
+    <color name="color_f8">#f8f8f8</color>
+    <color name="txt_66">#666666</color>
+    <color name="txt_33">#333333</color>
+    <color name="txt_99">#999999</color>
+    <color name="txt_6c7f9f">#6C7F9F</color>
+    <color name="txt_889ab8">#889AB8</color>
+    <color name="app_red">#FF5F56</color>
+    <color name="app_blue">#3C6BFF</color>
+    <color name="app_green">#1FD101</color>
+    <color name="app_yellow">#FF7200</color>
+    <color name="app_yellow_light">#FFA700</color>
+    <color name="line_d2">#d2d2d2</color>
+    <color name="line_ee">#EEEEEE</color>
+
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="divider">#EEF0F5</color>
+    <color name="green_press">#54BD9D</color>
+    <color name="grey_press">#CCCCCC</color>
+
+    <color name="red">#FF0000</color> <!-- 红色 -->
+    <color name="yellow">#FFFF00</color> <!-- 黄色 -->
+    <color name="orange">#FFA500</color> <!-- 橙色 -->
+    <color name="green">#008000</color> <!-- 绿色 -->
+    <color name="blue">#0000FF</color> <!-- 蓝色 -->
+    <color name="white">#FFFFFF</color> <!-- 白色 -->
+    <color name="gold">#FFD700</color> <!-- 金色 -->
+    <color name="gray">#999999</color> <!-- 灰色 -->
+    <color name="black">#000000</color> <!-- 黑色 -->
+
+
+    <color name="main_bg_color">#FFF7F7F7</color>
+    <color name="main_toolbar_color">#FFFFFF</color>
+    <color name="font_text_color">#FF333333</color>
+    <color name="font_text_grey_color">#FF94969A</color>
+    <color name="font_text_black_color">#FF1D1A1A</color>
+    <color name="font_hint_color">#FF5C5A65</color>
+    <color name="font_yellow_color">#FFF9BE00</color>
+    <color name="font_light_color">#FF5503B1</color>
+
+    <!--tab bottom -->
+    <color name="tab_bottom_normal">#FFC6C6C6</color>
+    <color name="tab_bottom_selected">#FF333333</color>
+
+    <!--ups and downs-->
+    <color name="font_ups_blue_color">#FF1FBC8E</color>
+    <color name="font_downs_red_color">#FFE45959</color>
+    <color name="font_zero_color">#FF94969A</color>
+
+    <!--kline text color check and default-->
+    <color name="font_kline_check">#FFFAD584</color>
+    <color name="font_kline_default">#FF77767F</color>
+
+
+    <!-- QRCode scanner color begin -->
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#B0000000</color>
+    <color name="viewfinder_frame">#90FFFFFF</color>
+    <color name="result_point_color">#C0FFFF00</color>
+    <color name="laser_color">#0F0</color>
+    <color name="corner_color">#00FF00</color>
+    <color name="main_light_bg">#FFF3F6FB</color>
+    <!-- QRCode scanner color end -->
+</resources>

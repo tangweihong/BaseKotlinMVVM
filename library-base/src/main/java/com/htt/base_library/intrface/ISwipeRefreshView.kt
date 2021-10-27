@@ -1,4 +1,4 @@
-package com.htt.base_library.`interface`
+package com.htt.base_library.intrface
 
 /**
  *

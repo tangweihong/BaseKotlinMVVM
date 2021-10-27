@@ -1,5 +1,6 @@
 package com.htt.base_library.base
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +18,6 @@ import com.htt.base_library.util.ScreenUtils
 import com.htt.base_library.util.showToast
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
-import com.wuyr.activitymessenger.startActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -27,7 +27,6 @@ import java.lang.reflect.ParameterizedType
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(),
     CoroutineScope by MainScope() {
-
     var loadService: LoadService<*>? = null
 
     var loadingDialog: PromptDialog? = null
@@ -36,6 +35,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(),
      * ViewBinding
      */
     protected lateinit var mViewBinding: VB
+    protected var mContext: Context? = null
 
     /**
      * RootView
@@ -50,6 +50,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(),
         val method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
         mViewBinding = method.invoke(null, layoutInflater) as VB
         setContentView(mViewBinding?.root)
+        mContext = this
         if (isImmersionBar()) initImmersionBar()
         initLoadService(getLoadView())
         initView(intent, savedInstanceState)
@@ -66,7 +67,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(),
 
     abstract fun initView(intent: Intent?, savedInstanceState: Bundle?)
 
-    abstract fun loadData()
+    open fun loadData(){}
 
     open fun getLoadView(): View? {
         return null
@@ -124,14 +125,15 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(),
         dismissLoadingDialog()
         showToast(msg)
         if (code == Constant.HTTP_CODE_LOGOUT) {
+
         }
     }
 
-    fun showLoadingDialog(msg: String) {
+    open fun showLoadingDialog(msg: String) {
         showLoadingDialog(true)
     }
 
-    fun dismissLoadingDialog() {
+    open fun dismissLoadingDialog() {
         DialogUtils.dismiss()
     }
 

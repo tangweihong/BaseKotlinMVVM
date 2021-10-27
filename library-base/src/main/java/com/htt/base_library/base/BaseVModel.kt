@@ -108,7 +108,7 @@ open class BaseVModel : ViewModel(), LifecycleObserver {
         coroutineScope {
             when (response.code) {
                 Constant.HTTP_CODE_SUCCESS -> success(response)
-//                Constant.HTTP_CODE_LOGOUT -> UserManager.logOut()
+                Constant.HTTP_CODE_LOGOUT -> UserManager.logOut()
                 else -> throw ResponseThrowable(response.code, response.msg ?: "")
             }
         }

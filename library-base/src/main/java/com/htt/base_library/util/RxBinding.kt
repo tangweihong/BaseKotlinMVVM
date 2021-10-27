@@ -4,6 +4,7 @@ import android.os.Looper
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.Checkable
 import android.widget.EditText
@@ -11,45 +12,55 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
+import com.htt.base_library.util.ViewClickDelay.DIFF
+import com.htt.base_library.util.ViewClickDelay.lastButtonId
+import com.htt.base_library.util.ViewClickDelay.lastClickTime
 import java.lang.NullPointerException
 import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 
+object ViewClickDelay {
+    var lastClickTime: Long = 0
+    const val DIFF: Long = 1000  // 间隔时间
+    var lastButtonId = -1
+}
+
 /**
- * view点击事件
+ * 防快速点击
+ * @receiver View
+ * @param clickAction 要响应的操作
  */
-//fun View.click(done: View.OnClickListener): Disposable {
-//    return ViewClickObservable(this)
-//        .throttleFirst(1, TimeUnit.SECONDS)
-//        .subscribe {
-//            done.onClick(it as? View)
-//        }
-//}
-inline fun <T : View> T.click(time: Long = 800, crossinline block: (T) -> Unit) {
+fun <T : View> T.doubleClick(clickAction: () -> Unit) {
     setOnClickListener {
-        val currentTimeMillis = System.currentTimeMillis()
-        if (currentTimeMillis - lastClickTime > time || this is Checkable) {
-            lastClickTime = currentTimeMillis
-            block(this)
+        val time = System.currentTimeMillis()
+        val timeD: Long = time - lastClickTime
+        if (lastButtonId == it.id && lastClickTime > 0 && timeD < DIFF) {
+            Log.v("isFastDoubleClick", "短时间内按钮多次触发")
+        } else {
+            lastClickTime = time
+            lastButtonId = it.id
+            clickAction()
         }
     }
 }
+
 //兼容点击事件设置为this的情况
-fun <T : View> T.click(onClickListener: View.OnClickListener, time: Long = 800) {
+fun <T : View> T.doubleClick(onClickListener: View.OnClickListener) {
     setOnClickListener {
-        val currentTimeMillis = System.currentTimeMillis()
-        if (currentTimeMillis - lastClickTime > time || this is Checkable) {
-            lastClickTime = currentTimeMillis
+        val time = System.currentTimeMillis()
+        val timeD: Long = time - lastClickTime
+        if (lastButtonId == it.id && lastClickTime > 0 && timeD < DIFF) {
+            Log.v("isFastDoubleClick", "短时间内按钮多次触发")
+        } else {
+            lastClickTime = time
+            lastButtonId = it.id
             onClickListener.onClick(this)
         }
     }
 }
 
-var <T : View> T.lastClickTime: Long
-    set(value) = setTag(1766613352, value)
-    get() = getTag(1766613352) as? Long ?: 0
 
 /**
  * editText输入监听
@@ -71,7 +82,12 @@ inline fun TextView.textChanged(crossinline done: (s: String) -> Unit) {
 /**
  * 部分文字高亮并添加点击事件
  */
-inline fun TextView.spanClick(s: String, span: String, @ColorInt colorInt: Int, crossinline done: () -> Unit) {
+inline fun TextView.spanClick(
+    s: String,
+    span: String,
+    @ColorInt colorInt: Int,
+    crossinline done: () -> Unit
+) {
     val spannableString = SpannableString(s)
     val pattern = Pattern.compile(span)
     val matcher: Matcher = pattern.matcher(s)

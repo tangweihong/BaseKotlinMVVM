@@ -10,7 +10,7 @@ import com.lianshang.mvvm.model.Market
 import com.lianshang.mvvm.model.NewsData
 import java.math.BigDecimal
 
-class NewsListAdapter : BaseQuickAdapter<NewsData, BaseViewHolder>(R.layout.item_home_market_list) {
+class NewsListAdapter : BaseQuickAdapter<NewsData, BaseViewHolder>(R.layout.item_home_market_list) ,LoadMoreModule{
 
     override fun convert(helper: BaseViewHolder, item: NewsData) {
 

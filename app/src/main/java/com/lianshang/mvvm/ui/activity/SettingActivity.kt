@@ -76,22 +76,20 @@ class SettingActivity :
             })
     }
 
+
     override fun setEventListener() {
         mViewBinding.button.setOnClickListener {
-            getAdapter().addData(listOf("1", "2", "2", "2", "2", "2"))
+           onSuccessList(listOf("1", "2", "2", "2", "2", "2").toMutableList())
         }
     }
 
     override fun loadData() {
-        getAdapter().setList(listOf("1", "2", "2", "2", "2", "2"))
-        val list = listOf("1", "2", "2", "2", "2", "2");
-
-
+        onSuccessList(listOf("1", "2", "2", "2", "2", "2").toMutableList())
     }
 
 
-    override fun onLoadData(isRefresh: Boolean, pagerNumber: Int) {
-        onSuccessList(mutableListOf("1", "2", "2", "2", "2", "2"), true)
+    override fun onLoadData(pagerNumber: Int) {
+        onSuccessList(mutableListOf("1", "2", "2", "2", "2", "2"))
     }
 
 

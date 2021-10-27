@@ -20,7 +20,7 @@ class OpenAccountListActivity :
         super.initView(intent, savedInstanceState)
 
         viewModel.openAccountList.observe(this) {
-            onSuccessList(it.data, false)
+            onSuccessList(it.data)
         }
     }
 
@@ -38,11 +38,14 @@ class OpenAccountListActivity :
         }
     }
 
+    override fun isInitLoadMoreModule(): Boolean {
+        return false
+    }
     override fun loadData() {
         viewModel.getMainData()
     }
 
-    override fun onLoadData(isRefresh: Boolean, pagerNumber: Int) {
+    override fun onLoadData(pagerNumber: Int) {
         viewModel.getMainData()
     }
 }

@@ -2,37 +2,31 @@ package com.htt.base_library.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Adapter
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.loadmore.BaseLoadMoreView
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.htt.base_library.base.internal.IBaseListView
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import com.test.library_base.R
 
 abstract class BaseListActivity<Adapter : BaseQuickAdapter<T, *>, T, VM : BaseVModel, VB : ViewBinding> :
-    BaseVMActivity<VM, VB>(), OnRefreshLoadMoreListener, IBaseListView<Adapter, T> {
+    BaseSwipeRefreshActivity<VM, VB>(), IBaseListView<Adapter, T> {
 
 
-    private val mAdapter: Adapter by lazy {
+    protected val mAdapter: Adapter by lazy {
         setAdapterInstance()
     }
 
-    private val mRecyclerView: RecyclerView? by lazy {
+    protected val mRecyclerView: RecyclerView? by lazy {
         findViewById<RecyclerView>(getRecyclerviewId())
     }
 
-    private val mRefreshLayout: SmartRefreshLayout? by lazy {
-        findViewById<SmartRefreshLayout>(getRefreshLayoutId())
-    }
 
-//    private val mStateView: MultiStateView? by lazy {
-//        findViewById<MultiStateView>(getStatusViewId())
-//    }
-
-
-    open val pageSize = 10
+    private var pageSize = 15
     private var pagerNumber = 1
 
 
@@ -46,75 +40,144 @@ abstract class BaseListActivity<Adapter : BaseQuickAdapter<T, *>, T, VM : BaseVM
         initRv()
     }
 
-    override fun onRefresh(refreshLayout: RefreshLayout) = onRefresh()
-    override fun onLoadMore(refreshLayout: RefreshLayout) = onLoadMore()
-
 
     override fun showError(msg: String, code: Int) {
         super.showError(msg, code)
-        onFailureList()
-    }
-    //用于子类手动刷新
-    open fun onRefresh() {
-        pagerNumber = 1
-        onLoadData(true, pagerNumber)
+        if (pagerNumber != 1) {
+            pagerNumber -= 1
+        }
     }
 
-    //用于子类手动控制加载
-    open fun onLoadMore() {
-        pagerNumber++
-        onLoadData(false, pagerNumber)
+    //用于子类手动刷新
+    override fun startRefresh() {
+        super.startRefresh()
+        pagerNumber = 1
+        onLoadMoreData(pagerNumber)
     }
+
     protected open fun initRv() {
-        mRefreshLayout?.let {
-            it.setEnableLoadMore(false)
-            it.setEnableRefresh(true)
-            it.setOnRefreshListener(this)
-            it.setOnLoadMoreListener(this)
-        }
         mRecyclerView?.let {
             it.layoutManager = newLayoutManager(this)
             it.adapter = mAdapter
         }
-//        mStateView?.let {
-//            it.setOnRetryListener { _ ->
-//                it.viewState = MultiStateView.ViewState.LOADING
-//                onRefresh()
-//            }
-//        }
+        setHasFixedSize()
+        if (isInitLoadMoreModule()) {
+            mAdapter.loadMoreModule.setOnLoadMoreListener {
+                if (!isRefresh()) {
+                    pagerNumber++
+                    loadData()
+                }
+            }
+            mAdapter.loadMoreModule.isAutoLoadMore = true
+            mAdapter.loadMoreModule.isEnableLoadMoreIfNotFullPage = false
+            mAdapter.loadMoreModule.loadMoreView = object : BaseLoadMoreView() {
+                override fun getRootView(viewGroup: ViewGroup): View {
+                    // 整个 LoadMore 布局
+                    return LayoutInflater.from(mContext)
+                        .inflate(R.layout.view_load_more, viewGroup, false)
+                }
+
+                override fun getLoadingView(baseViewHolder: BaseViewHolder): View {
+                    // 布局中 “加载中”的View
+                    return baseViewHolder.getView(R.id.load_more_loading_view)
+                }
+
+                override fun getLoadComplete(baseViewHolder: BaseViewHolder): View {
+                    // 布局中 “当前一页加载完成”的View
+                    return baseViewHolder.getView(R.id.load_more_load_complete_view)
+                }
+
+                override fun getLoadEndView(baseViewHolder: BaseViewHolder): View {
+                    // 布局中 “全部加载结束，没有数据”的View
+                    return baseViewHolder.getView(R.id.load_more_load_end_view)
+                }
+
+                override fun getLoadFailView(baseViewHolder: BaseViewHolder): View {
+                    // 布局中 “加载失败”的View
+                    return baseViewHolder.getView(R.id.load_more_load_fail_view)
+                }
+            }
+        }
+    }
+    /**
+     * 加载更多数据
+     */
+    abstract fun onLoadMoreData()
+
+    /**
+     * 设置高度固定
+     *
+     *
+     * 如果item高度是固定的话，可以使用RecyclerView.setHasFixedSize(true);来避免requestLayout浪费资源。
+     */
+    open fun setHasFixedSize() {
+        mRecyclerView?.setHasFixedSize(true)
     }
 
+    /**
+     * 是否初始化LoadMoreModule
+     *
+     * @return 默认true
+     */
+    open fun isInitLoadMoreModule(): Boolean {
+        return true
+    }
 
-    override fun onSuccessList(list: MutableList<T>?, hasNext: Boolean) {
+    override fun onSuccessList(list: MutableList<T>?) {
         if (pagerNumber == 1) {
             mAdapter.setList(list)
         } else {
             mAdapter.addData(list ?: emptyList())
         }
-        mRefreshLayout?.let {
-            it.finishLoadMore()
-            it.finishRefresh()
-            it.setNoMoreData(!hasNext)
-        }
-//        mStateView?.let {
-//            it.viewState = if (mAdapter.itemCount > 0)
-//                MultiStateView.ViewState.CONTENT else MultiStateView.ViewState.EMPTY
-//        }
-    }
 
-    override fun onFailureList() {
-        mRefreshLayout?.let {
-            it.finishLoadMore(false)
-            it.finishRefresh(false)
-            it.setNoMoreData(true)
+        if (isInitLoadMoreModule()) {
+            if (mAdapter.data.size < pageSize) {
+                mAdapter.loadMoreModule.loadMoreEnd(true)
+            } else {
+                mAdapter.loadMoreModule.loadMoreComplete()
+            }
         }
-//        mStateView?.let {
-//            it.viewState = if (mAdapter.itemCount > 0)
-//                MultiStateView.ViewState.CONTENT else MultiStateView.ViewState.ERROR
-//        }
+        if (mAdapter.data == null || mAdapter.data.size <= 0) {
+//            setEmptyView()
+        }
     }
 
 
+    /**
+     * get page index
+     *
+     * @return page index
+     */
+    open fun getPageIndex(): Int {
+        return pagerNumber
+    }
+
+    /**
+     * set the list page no
+     *
+     * @param pageIndex page index
+     */
+    open fun setPageIndex(pageIndex: Int) {
+        pagerNumber = pageIndex
+    }
+
+    /**
+     * get page pageSize
+     *
+     * @return page pageSize
+     */
+    open fun getPageSize(): Int {
+        return pageSize
+    }
+
+    /**
+     * set the list page no
+     *
+     * @param size page size
+     */
+    open fun setPageSize(size: Int) {
+        pageSize = size
+    }
 }
 
 

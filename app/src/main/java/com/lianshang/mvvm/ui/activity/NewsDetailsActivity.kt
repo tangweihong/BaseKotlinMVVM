@@ -25,9 +25,8 @@ class NewsDetailsActivity :
     override fun initView(intent: Intent?, savedInstanceState: Bundle?) {
         super.initView(intent, savedInstanceState)
         initImmersionBar()
-        viewModel.getNewsList(1,true)
         getAdapter().setOnItemClickListener { _, _, _ ->
-            onSuccessList(null, false)
+            onSuccessList(null)
         }
     }
 
@@ -44,12 +43,17 @@ class NewsDetailsActivity :
     }
 
     override fun loadData() {
+        viewModel.getNewsList(1, true)
+    }
+
+    override fun setEventListener() {
+        super.setEventListener()
         viewModel.newsList.observe(this) {
-            onSuccessList(it.data, false)
+            onSuccessList(it.data)
         }
     }
 
-    override fun onLoadData(isRefresh: Boolean, pagerNumber: Int) {
-        viewModel.getNewsList(pagerNumber,false)
+    override fun onLoadData(pagerNumber: Int) {
+        viewModel.getNewsList(pagerNumber, false)
     }
 }

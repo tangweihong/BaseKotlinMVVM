@@ -109,13 +109,13 @@ abstract class BaseFragment<VM : BaseVModel, VB : ViewBinding> : Fragment() {
 
     }
 
-    fun showError(msg: String, code: Int) {
+   open fun showError(msg: String, code: Int) {
         dismissLoadingDialog()
         showToast(msg)
 
     }
 
-    fun showLoadingDialog(msg: String) {
+    open fun showLoadingDialog(msg: String) {
         activity?.let {
             if (it is BaseActivity<*>) {
                 it.showLoadingDialog(msg)
@@ -123,7 +123,7 @@ abstract class BaseFragment<VM : BaseVModel, VB : ViewBinding> : Fragment() {
         }
     }
 
-    fun dismissLoadingDialog() {
+   open fun dismissLoadingDialog() {
         activity?.let {
             if (it is BaseActivity<*>)
                 it.dismissLoadingDialog()

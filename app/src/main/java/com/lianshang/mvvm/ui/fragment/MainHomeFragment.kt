@@ -3,34 +3,35 @@ package com.lianshang.mvvm.ui.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.gyf.immersionbar.ktx.immersionBar
 import com.htt.base_library.base.BaseListFragment
+import com.htt.base_library.util.doubleClick
 import com.lianshang.mvvm.R
 import com.lianshang.mvvm.databinding.FragmentHomeBinding
-import com.lianshang.mvvm.ext.clickDelay
-import com.lianshang.mvvm.ext.dp
 import com.lianshang.mvvm.model.Article
 import com.lianshang.mvvm.model.Market
 import com.lianshang.mvvm.ui.activity.NewsDetailsActivity
 import com.lianshang.mvvm.ui.activity.OpenAccountListActivity
+import com.lianshang.mvvm.ui.activity.SettingActivity
 import com.lianshang.mvvm.ui.adapter.HomeMarketListAdapter
 import com.lianshang.mvvm.ui.adapter.HomeNewsListAdapter
 import com.lianshang.mvvm.ui.viewmodel.MainViewModel
 import com.lianshang.mvvm.util.NoticeUtils
 import com.lianshang.mvvm.util.loadBannerImage
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.stx.xhb.androidx.XBanner
 import com.stx.xhb.androidx.entity.BaseBannerInfo
+import com.stx.xhb.androidx.transformers.Transformer
 import com.wuyr.activitymessenger.startActivity
 
 class MainHomeFragment :
     BaseListFragment<HomeMarketListAdapter, Market, MainViewModel, FragmentHomeBinding>() {
     private var mNoticeList: MutableList<Article>? = null
     private lateinit var mHomeNewsAdapter: HomeNewsListAdapter
-
+    private val viewModel: MainViewModel by viewModels()
     private val mNoticeUtils by lazy {
         NoticeUtils(mContext) {
             //滚动公告栏点击
@@ -43,7 +44,7 @@ class MainHomeFragment :
     override fun loadData() {
         viewModel.mainData.observe(this) {
             mViewBinding.homeBanner.setBannerData(it.banner)
-            onSuccessList(it.market, false)
+            onSuccessList(it.market)
             mHomeNewsAdapter.setList(it.information)
             mNoticeList = it.article
             if (it.article.isNullOrEmpty()) {
@@ -61,6 +62,7 @@ class MainHomeFragment :
             statusBarDarkFont(true, 0.2f)
         }
         initRecyclerView()
+        mViewBinding.homeBanner.setPageTransformer(Transformer.Cube)
         mViewBinding.homeBanner.loadImage { _, model, bannerView, _ ->
             (bannerView as? ImageView)?.let {
                 if (model is BaseBannerInfo) {
@@ -68,6 +70,10 @@ class MainHomeFragment :
                 }
             }
         }
+    }
+
+    override fun isInitLoadMoreModule(): Boolean {
+        return false
     }
 
     private fun initRecyclerView() {
@@ -78,20 +84,16 @@ class MainHomeFragment :
     }
 
     override fun setEventListener() {
-        mViewBinding.homeTvBindApi.clickDelay {
-            startActivity<NewsDetailsActivity>()
-        }
-        mViewBinding.homeTvOpenAccount.clickDelay {
-            startActivity<OpenAccountListActivity>()
-        }
+        mViewBinding.homeTvBindApi.doubleClick { startActivity<NewsDetailsActivity>() }
+        mViewBinding.homeTvOpenAccount.doubleClick { startActivity<OpenAccountListActivity>() }
+        mViewBinding.homeTvProfit.doubleClick { startActivity<SettingActivity>() }
     }
-
 
     override fun lazyLoad() {
         viewModel.getMainData(true)
     }
 
-    override fun onLoadData(isRefresh: Boolean, pagerNumber: Int) {
+    override fun onLoadMoreData(pagerNumber: Int) {
         viewModel.getMainData(false)
     }
 
@@ -99,11 +101,17 @@ class MainHomeFragment :
         super.onResume()
         LogUtils.e("onResume")
         mNoticeUtils.startNotice(null, mViewBinding.homeMarqueeView)
+        mViewBinding.homeBanner.startAutoPlay()
     }
 
     override fun onPause() {
         super.onPause()
         mNoticeUtils.stopNotice(mViewBinding.homeMarqueeView, false)
+        mViewBinding.homeBanner.stopAutoPlay()
+    }
+
+    override fun onRefreshData() {
+
     }
 
 }
